@@ -1,9 +1,6 @@
-package g.ygsama.ipa.web;
+package g.ygsama.ipa.test;
 
 
-import com.alibaba.fastjson.JSONArray;
-import g.ygsama.ipa.domain.User;
-import g.ygsama.ipa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

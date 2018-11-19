@@ -1,6 +1,16 @@
-package g.ygsama.ipa.domain;
+package g.ygsama.ipa.test;
 
 public class User {
+
+    public User() {
+
+    }
+
+    public User(Long id, String name, Integer age) {
+        setId(id);
+        setName(name);
+        setAge(age);
+    }
 
     public Long getId() {
         return id;

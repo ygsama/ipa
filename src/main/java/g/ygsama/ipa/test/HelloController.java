@@ -1,4 +1,4 @@
-package g.ygsama.ipa.web;
+package g.ygsama.ipa.test;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
