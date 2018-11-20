@@ -17,6 +17,14 @@ public class ResultJson extends JSONObject {
         super.put("msg", "failed");
     }
 
+    public ResultJson(Object json) {
+        super();
+        super.put("code", "00000");
+        super.put("msg", "success");
+        super.put("data", json);
+    }
+
+
     public ResultJson(String code, String msg) {
         super();
         super.put("code", code);
