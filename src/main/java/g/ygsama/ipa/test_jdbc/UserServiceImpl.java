@@ -14,12 +14,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(Long id, String name, Integer age) {
-        jdbcTemplate.update("insert into user(id, NAME, AGE) values(?, ?, ?)", id, name, age);
+        jdbcTemplate.update("insert into user(uid, uname, nick) values(?, ?, ?)", id, name, age);
     }
 
     @Override
     public void deleteById(Long id) {
-        jdbcTemplate.update("delete from user where id = ?", id);
+        jdbcTemplate.update("delete from user where uid = ?", id);
     }
 
     @Override
