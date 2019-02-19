@@ -32,8 +32,8 @@ repositories {
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
-    implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    implementation('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+    testImplementation('org.springframework.boot:spring-boot-starter-test_jdbc')
 
     implementation('com.alibaba:fastjson:1.2.51')
     implementation("mysql:mysql-connector-java:5.1.24")

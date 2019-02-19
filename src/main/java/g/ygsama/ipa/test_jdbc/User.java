@@ -1,4 +1,4 @@
-package g.ygsama.ipa.test;
+package g.ygsama.ipa.test_jdbc;
 
 public class User {
 

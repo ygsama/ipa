@@ -1,4 +1,4 @@
-package g.ygsama.ipa.service;
+package g.ygsama.ipa.test_jdbc;
 
 import java.util.List;
 
