@@ -1,4 +1,4 @@
-package g.ygsama.ipa.test_shiro.entity;
+package g.ygsama.ipa.entity;
 
 import java.util.HashSet;
 import java.util.Set;
