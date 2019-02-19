@@ -1,7 +1,7 @@
 package g.ygsama.ipa.config;
 
 
-import g.ygsama.ipa.shiro.CustomRealm;
+import g.ygsama.ipa.realm.CustomRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;

@@ -1,4 +1,4 @@
-package g.ygsama.ipa.shiro;
+package g.ygsama.ipa.realm;
 
 
 
@@ -42,7 +42,12 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
 
-    //定义如何获取用户的角色和权限的逻辑，给shiro做权限判断
+    /**
+     * 授权：
+     *      定义如何获取用户的角色和权限的逻辑，给shiro做权限判断
+     * @param principals
+     * @return AuthorizationInfo
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //null usernames are invalid
@@ -60,7 +65,15 @@ public class CustomRealm extends AuthorizingRealm {
         return info;
     }
 
-    //定义如何获取用户信息的业务逻辑，给shiro做登录
+    /**
+     * 认证：
+     *  1、检查提交的进行认证的令牌信息 
+     *  2、根据令牌信息从数据源(通常为数据库)中获取用户信息 
+     *  3、对用户信息进行匹配验证。
+     * @param token
+     * @return 封装了用户信息的AuthenticationInfo对象
+     * @throws AuthenticationException
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
