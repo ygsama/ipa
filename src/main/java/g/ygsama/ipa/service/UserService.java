@@ -1,6 +1,12 @@
 package g.ygsama.ipa.service;
 
 import g.ygsama.ipa.entity.User;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.DefaultHashService;
+import org.apache.shiro.crypto.hash.HashRequest;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.util.SimpleByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -31,10 +37,26 @@ public class UserService {
         return user;
     }
 
+    /**
+     * 添加用户
+     */
+    public void addUser(String id, String name, String pwd) {
 
-//    public void create(Long id, String name, Integer age) {
+//        DefaultHashService hashService = new DefaultHashService(); //默认算法 SHA-512
+//        hashService.setHashAlgorithmName(Md5Hash.ALGORITHM_NAME);
+//        hashService.setPrivateSalt(new SimpleByteSource("123")); //私盐，默认无
+//        hashService.setGeneratePublicSalt(true);//是否生成公盐，默认 false
+//        hashService.setRandomNumberGenerator(new SecureRandomNumberGenerator());//用于生成公盐。默认就这个
+//        hashService.setHashIterations(2); //生成 Hash 值的迭代次数
+//        HashRequest request = new HashRequest.Builder()
+//                .setAlgorithmName("MD5")
+//                .setSource(ByteSource.Util.bytes("hello"))
+//                .setSalt(ByteSource.Util.bytes("123"))
+//                .setIterations(2).build();
+//        String hex = hashService.computeHash(request).toHex();
+
 //        jdbcTemplate.update("insert into user(uid, uname, nick) values(?, ?, ?)", id, name, age);
-//    }
+    }
 //
 //    public void deleteById(Long id) {
 //        jdbcTemplate.update("delete from user where uid = ?", id);

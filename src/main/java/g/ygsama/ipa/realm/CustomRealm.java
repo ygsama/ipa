@@ -6,7 +6,6 @@ import g.ygsama.ipa.entity.User;
 import g.ygsama.ipa.service.PermService;
 import g.ygsama.ipa.service.RoleService;
 import g.ygsama.ipa.service.UserService;
-import g.ygsama.ipa.web.LoginController;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationException;
@@ -38,10 +37,12 @@ public class CustomRealm extends AuthorizingRealm {
 
     //告诉shiro如何根据获取到的用户信息中的密码和盐值来校验密码
     {
-        //设置用于匹配密码的CredentialsMatcher
+        // 设置用于匹配密码的CredentialsMatcher
         HashedCredentialsMatcher hashMatcher = new HashedCredentialsMatcher();
         hashMatcher.setHashAlgorithmName(Sha256Hash.ALGORITHM_NAME);
+        // 是否存储散列后的密码为16进制
         hashMatcher.setStoredCredentialsHexEncoded(false);
+        // 重复hash多少次，一般为2次
         hashMatcher.setHashIterations(1024);
         this.setCredentialsMatcher(hashMatcher);
     }

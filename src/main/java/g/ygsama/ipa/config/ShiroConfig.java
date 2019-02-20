@@ -2,6 +2,8 @@ package g.ygsama.ipa.config;
 
 
 import g.ygsama.ipa.realm.CustomRealm;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
@@ -35,5 +37,10 @@ public class ShiroConfig {
         return chain;
     }
 
+
+    @Bean
+    protected CacheManager cacheManager() {
+        return new MemoryConstrainedCacheManager();
+    }
 
 }

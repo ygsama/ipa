@@ -19,10 +19,9 @@ public class PermService {
     public Set<String> getPermsByUserId(String uid){
         Set<String> perms = new HashSet<>();
 
-//        perms.add("user:alter");
         perms.add("user:select");
-//        perms.add("user:all");
-//        perms.add("sys:all");
+//        perms.add("user:*");
+//        perms.add("sys:*");
 
         return perms;
     }
