@@ -6,6 +6,7 @@ import g.ygsama.ipa.entity.User;
 import g.ygsama.ipa.service.PermService;
 import g.ygsama.ipa.service.RoleService;
 import g.ygsama.ipa.service.UserService;
+import g.ygsama.ipa.web.LoginController;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationException;
@@ -15,14 +16,18 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
 /**
- * 这个类是参照JDBCRealm写的，主要是自定义了如何查询用户信息，如何查询用户的角色和权限，如何校验密码等逻辑
+ * 这个类是参照JDBCRealm写的，主要是：查询用户信息，查询用户的角色和权限，校验密码。等逻辑的实现
  */
 public class CustomRealm extends AuthorizingRealm {
+
+    private static final Logger log = LoggerFactory.getLogger(CustomRealm.class);
 
     @Autowired
     private UserService userService;
@@ -50,7 +55,7 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        //null usernames are invalid
+        log.info("[执行授权]","...");
         if (principals == null) {
             throw new AuthorizationException("PrincipalCollection method argument cannot be null.");
         }
@@ -58,8 +63,8 @@ public class CustomRealm extends AuthorizingRealm {
         User user = (User) getAvailablePrincipal(principals);
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        System.out.println("获取角色信息："+user.getRoles());
-        System.out.println("获取权限信息："+user.getPerms());
+        log.info("[获取角色信息]: "+user.getRoles());
+        log.info("[获取权限信息]: "+user.getPerms());
         info.setRoles(user.getRoles());
         info.setStringPermissions(user.getPerms());
         return info;
@@ -77,23 +82,20 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
+        log.info("[执行认证]","...");
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         String username = upToken.getUsername();
-
-        // Null username is invalid
         if (username == null) {
             throw new AccountException("Null usernames are not allowed by this realm.");
         }
 
         User userDB = userService.findUserByName(username);
-
-
         if (userDB == null) {
             throw new UnknownAccountException("No account found for admin [" + username + "]");
         }
 
-        //查询用户的角色和权限存到SimpleAuthenticationInfo中，这样在其它地方
-        //SecurityUtils.getSubject().getPrincipal()就能拿出用户的所有信息，包括角色和权限
+        // 查询用户的角色和权限存到SimpleAuthenticationInfo中，这样在其它地方
+        // SecurityUtils.getSubject().getPrincipal()就能拿出用户的所有信息，包括角色和权限
         Set<String> roles = roleService.getRolesByUserId(userDB.getUid());
         Set<String> perms = permService.getPermsByUserId(userDB.getUid());
         userDB.getRoles().addAll(roles);

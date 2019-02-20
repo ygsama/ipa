@@ -18,10 +18,9 @@ public class RoleService {
      */
     public Set<String> getRolesByUserId(String uid){
         Set<String> roles = new HashSet<>();
-        //三种编程语言代表三种角色：js程序员、java程序员、c++程序员
-        roles.add("js");
-        roles.add("java");
-        roles.add("cpp");
+        // 查询后得到角色
+        roles.add("worker");
+        roles.add("manager");
         return roles;
     }
 

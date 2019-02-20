@@ -34,7 +34,6 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-devtools')
-//    implementation('org.springframework.boot:spring-boot-starter-data-elasticsearch')
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -42,4 +41,5 @@ dependencies {
     implementation('com.alibaba:fastjson:1.2.51')
     implementation("mysql:mysql-connector-java:5.1.24")
     implementation('org.apache.shiro:shiro-spring-boot-web-starter:1.4.0')
+    
 }
