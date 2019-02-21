@@ -29,7 +29,7 @@ public class CORSFilter extends OncePerRequestFilter {
         Enumeration<String> names = request.getHeaderNames();
         while (names.hasMoreElements()) {
             String name = names.nextElement();
-//            log.info("报文头[" + name + "]:[" + request.getHeader(name) + "]");
+            log.info("报文头[" + name + "]:[" + request.getHeader(name) + "]");
         }
 
         filterChain.doFilter(request, response);

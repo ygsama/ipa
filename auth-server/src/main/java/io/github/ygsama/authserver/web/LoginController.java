@@ -36,38 +36,7 @@ public class LoginController {
         }
 
 
-        return null;
-//        Subject currentUser = SecurityUtils.getSubject();
-//        try {
-//            //登录
-//            currentUser.login( new UsernamePasswordToken(uname, pwd) );
-//            //从session取出用户信息
-//            User user = (User) currentUser.getPrincipal();
-//
-//            if (user==null) throw new AuthenticationException();
-//            //返回登录用户的信息给前台，含用户的所有角色和权限
-//            return new JSONObject()
-//                    .fluentPut("uid",user.getUid())
-//                    .fluentPut("nick",user.getNick())
-//                    .fluentPut("roles",user.getRoles())
-//                    .fluentPut("perms",user.getPerms());
-//
-//        } catch ( UnknownAccountException uae ) {
-//            log.warn("用户帐号不正确");
-//            return new JSONObject().fluentPut("msg","用户帐号或密码不正确");
-//
-//        } catch ( IncorrectCredentialsException ice ) {
-//            log.warn("用户密码不正确");
-//            return new JSONObject().fluentPut("msg","用户帐号或密码不正确");
-//
-//        } catch ( LockedAccountException lae ) {
-//            log.warn("用户帐号被锁定");
-//            return new JSONObject().fluentPut("msg","用户帐号被锁定不可用");
-//
-//        } catch ( AuthenticationException ae ) {
-//            log.warn("登录出错");
-//            return new JSONObject().fluentPut("msg",ae.getMessage());
-//        }
+        return new JSONObject().fluentPut("msg","success!");
 
     }
 }

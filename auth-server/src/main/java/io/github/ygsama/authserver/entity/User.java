@@ -7,6 +7,15 @@ import java.util.Set;
  * 用户表
  */
 public class User {
+    public User(){
+
+    }
+
+    public User(User user){
+        this.uname = user.uname;
+        this.pwd = user.pwd;
+
+    }
 
     private String uid;       // 用户id
     private String uname;   // 登录名，不可改
