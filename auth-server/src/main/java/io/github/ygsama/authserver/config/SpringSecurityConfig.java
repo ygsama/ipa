@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.annotation.Resource;
-
 /**
  * spring security 配置文件
  */
@@ -19,7 +17,7 @@ import javax.annotation.Resource;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DBAuthenticationProvider provider;
+    private DaoAuthenticationProvider provider;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
