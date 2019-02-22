@@ -1,2 +1,4 @@
 rootProject.name = 'ipa'
-include 'auth-server'
+include 'oauth2-server'
+include 'resource-server'
+include 'security-demo'
