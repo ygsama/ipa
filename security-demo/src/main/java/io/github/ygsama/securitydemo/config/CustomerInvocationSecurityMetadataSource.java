@@ -15,7 +15,8 @@ import javax.annotation.Resource;
 import java.util.*;
 
 /**
- * 系统启动时关联权限和资源
+ * FilterInvocationSecurityMetadataSource实现类
+ * 实现了动态权限验证
  */
 @Service
 public class CustomerInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
@@ -62,7 +63,7 @@ public class CustomerInvocationSecurityMetadataSource implements FilterInvocatio
     }
 
     /**
-     * 根据URL找到相关权限配置
+     * 授权时会被调用，根据URL找到相关权限配置
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {

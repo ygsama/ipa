@@ -11,7 +11,12 @@ import javax.annotation.PostConstruct;
 import javax.servlet.*;
 import java.io.IOException;
 
-
+/**
+ * 资源访问过滤器
+ *
+ * 默认的过滤器是FilterSecurityInterceptor
+ * 这里是重写的一个过滤器
+ */
 @Component
 public class CustomerSecurityFilter extends AbstractSecurityInterceptor implements Filter {
 

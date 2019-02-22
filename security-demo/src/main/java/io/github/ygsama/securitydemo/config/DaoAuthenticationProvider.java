@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+/**
+ * 自定义Provider，用于登录认证
+ */
 @Component
 public class DaoAuthenticationProvider implements AuthenticationProvider {
 
@@ -28,7 +31,7 @@ public class DaoAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("用户名未找到");
         }
 
-        //加密过程在这里体现
+        //加密过程在这里添加体现
 
         System.out.println("密码：");
         System.out.println(userDetails.getPassword());
