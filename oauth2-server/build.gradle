@@ -1,7 +1,9 @@
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE'
+    testImplementation 'org.springframework.security:spring-security-test'
+
 }
