@@ -24,7 +24,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/js/**","/css/**","/images/**"); // 静态文件忽略拦截
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
