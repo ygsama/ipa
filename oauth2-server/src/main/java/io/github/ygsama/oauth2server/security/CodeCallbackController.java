@@ -59,6 +59,10 @@ public class CodeCallbackController {
     public Object info(HttpServletRequest request) {
         System.out.println(request.getHeader("Authorization"));
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+
+
+
 		return authentication;
     }
 

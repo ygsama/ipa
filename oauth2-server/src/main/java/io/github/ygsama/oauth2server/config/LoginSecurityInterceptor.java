@@ -7,7 +7,6 @@ import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.*;
@@ -18,7 +17,7 @@ import java.io.IOException;
  * 资源访问拦截器
  * 默认的过滤器是FilterSecurityInterceptor
  */
-@Component
+//@Component
 public class LoginSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(LoginSecurityInterceptor.class);

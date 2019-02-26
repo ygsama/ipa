@@ -28,7 +28,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/").permitAll().anyRequest().authenticated() //访问首页不需要权限，其他页面需要权限
+            .antMatchers("/").permitAll()//访问首页不需要权限
+            .anyRequest().authenticated() // 其他页面需要权限
             .and().logout().permitAll() //退出不需要权限
             .and().formLogin()          //支持表单登陆
             .and().csrf().disable();    //关闭默认的csrf认证

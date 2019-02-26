@@ -30,7 +30,7 @@ public class UserDetailService implements UserDetailsService {
         ArrayList<Role> roles = new ArrayList<>();
         Role role = new Role();
         Role role1 = new Role();
-        role.setRname("worker");
+        role.setRname("user");
         role1.setRname("admin");
         roles.add(role);
         roles.add(role1);

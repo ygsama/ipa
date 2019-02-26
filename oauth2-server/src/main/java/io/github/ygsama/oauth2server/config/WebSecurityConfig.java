@@ -3,6 +3,7 @@ package io.github.ygsama.oauth2server.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
+@Order(1)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -24,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * AuthenticationManagerBuilder
-     * 用户认证的配置
+     * 用户认证
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,8 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
+        super.configure(web);
+//        web
+//                .ignoring()
+//                .antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
 //                .and()
 //                .addSecurityFilterChainBuilder();
     }
@@ -69,17 +73,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .requestMatchers()
-//                .antMatchers("/login","/oauth/authorize","/re")
-//                .and()
                 .authorizeRequests()
-                .antMatchers("/login","/oauth/authorize","/re").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/**").hasRole("USER")
+                .antMatchers("/oauth/**","/login/**", "/logout").permitAll()
                 .and()
-                .formLogin()
-                .and()
-                .httpBasic();
+                .authorizeRequests().anyRequest().authenticated();
+        super.configure(http);
+//                .authorizeRequests()
+//                .antMatchers("/login","/oauth/authorize","/re").permitAll()
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/product/**").hasRole("USER")
+//                .and()
+//                .formLogin()
+//                .and()
+//                .httpBasic();
 //                .usernameParameter("username") // default is username
 //                .passwordParameter("password") // default is password
 //                .loginPage("/authentication/login") // default is /login with an HTTP get
