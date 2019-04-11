@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
-@MapperScan(basePackages="io.github.ygsama.securitydemo.dao")
+@MapperScan(basePackages="io.github.ygsama.securitydemo.repository")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityDemoApplication {

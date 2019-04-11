@@ -1,36 +1,38 @@
 package io.github.ygsama.oauth2server.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * AbstractSecurityInterceptor
- * 资源访问拦截器
- * 默认的过滤器是FilterSecurityInterceptor
+ * 资源访问过滤器 <br>
+ * 重写了{@link AbstractSecurityInterceptor} 接口 <br>
+ * 默认的过滤器实现是{@link FilterSecurityInterceptor}
  */
-//@Component
+@Component
+@Slf4j
 public class LoginSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginSecurityInterceptor.class);
+    private final LoginSecurityMetadataSource loginSecurityMetadataSource;
+    private final LoginAccessDecisionManager loginAccessDecisionManager;
 
     @Autowired
-    private LoginSecurityMetadataSource loginSecurityMetadataSource;
-
-    @Autowired
-    private LoginAccessDecisionManager loginAccessDecisionManager;
-
+    public LoginSecurityInterceptor(LoginSecurityMetadataSource loginSecurityMetadataSource, LoginAccessDecisionManager loginAccessDecisionManager) {
+        this.loginSecurityMetadataSource = loginSecurityMetadataSource;
+        this.loginAccessDecisionManager = loginAccessDecisionManager;
+    }
 
     @PostConstruct
-    public void initSetManager(){
+    public void initSetManager() {
         super.setAccessDecisionManager(loginAccessDecisionManager);
     }
 
@@ -46,23 +48,21 @@ public class LoginSecurityInterceptor extends AbstractSecurityInterceptor implem
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("[LoginSecurityInterceptor]: {}"," doFilter");
-        FilterInvocation fi = new FilterInvocation( request, response, chain );
+        log.info("[自定义过滤器]: {}", " doFilter");
+        FilterInvocation fi = new FilterInvocation(request, response, chain);
         InterceptorStatusToken token = super.beforeInvocation(fi);
-        try{
+        try {
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
-        }finally{
+        } finally {
             super.afterInvocation(token, null);
         }
     }
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("[LoginSecurityInterceptor]: {}"," init");
     }
 
     @Override
     public void destroy() {
-        log.info("[LoginSecurityInterceptor]: {}"," destroy");
     }
 }

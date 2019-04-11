@@ -1,60 +1,74 @@
 package io.github.ygsama.oauth2server.config;
 
-import com.alibaba.fastjson.JSONObject;
-import io.github.ygsama.oauth2server.security.UserDetailService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+
 /**
- * 自定义Provider，用于登录认证
+ * 登录认证的Provider是{@link AuthenticationProvider} 的自定义实现 <br>
+ * Provider默认实现是 {@link DaoAuthenticationProvider} <br>
+ * <p>
+ * {@link BearerTokenAuthenticationFilter} 装填{@link Authentication}对象 <br>
+ * <p>
+ * {@link UsernamePasswordAuthenticationFilter} --> {@link AccessDecisionManager} --> {@link AuthenticationProvider} <br>
  */
 @Component
+@Slf4j
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginAuthenticationProvider.class);
+    private final UserDetailsService loginUserDetailsService;
 
-    @Autowired
-    private UserDetailService userDetailService;
+    @Autowired()
+    public LoginAuthenticationProvider(LoginUserDetailsServiceImpl loginUserDetailsService) {
+        this.loginUserDetailsService = loginUserDetailsService;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         // http请求的账户密码
-        String userName = authentication.getName();
-        String password = (String)authentication.getCredentials();
+        String username = authentication.getName();
+        String password = (String) authentication.getCredentials();
 
         // 数据库根据用户名查询
-        UserDetails userDetails = userDetailService.loadUserByUsername(userName);
+        UserDetails userDetails = loginUserDetailsService.loadUserByUsername(username);
 
-        log.info("[http请求的账户密码]: {}/{}", userName, password);
-        log.info("[数据库查询的账户密码]：{} ", JSONObject.toJSONString(userDetails));
+        log.info("[http请求的账户密码]: {}/{}", username, password);
+        log.info("[数据库查询的账户密码]：{} ", userDetails);
 
-        if(userDetails==null) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        if (userDetails == null) {
             throw new BadCredentialsException("用户名未找到");
         }
-
-        if(!password.equals(userDetails.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("密码不正确");
         }
 
-        // 获取权限集合
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        log.info("[设置authorities] : {}", authorities);
 
-        return new UsernamePasswordAuthenticationToken(userName,password,authorities);
+        // TODO: Spring Cloud 分布式改造时，权限模块放在网关，业务服务模块与权限模块解耦
+        // TODO: 权限模块：登录后需要将<username,userDetails>放入Redis缓存；其他业务请求需要添加username到http请求头中
+        // TODO: 业务模块：根据请求头中的key去缓存中获取userDetails
+        return new UsernamePasswordAuthenticationToken(userDetails, password, authorities);
     }
 
-    // 是否支持当前的provider
     @Override
     public boolean supports(Class<?> authentication) {
         return true;

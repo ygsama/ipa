@@ -1,15 +1,14 @@
 package io.github.ygsama.oauth2server.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,102 +17,47 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-@Order(1)
+@Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private LoginAuthenticationProvider provider;
+    private final UserDetailsService loginUserDetailsService;
 
-    /**
-     * AuthenticationManagerBuilder
-     * 用户认证
-     */
+    @Autowired
+    public WebSecurityConfig(UserDetailsService loginUserDetailsService) {
+        this.loginUserDetailsService = loginUserDetailsService;
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        super.configure(auth);
-//        auth.inMemoryAuthentication().withUser("zhangsan").password("$2a$10$qsJ/Oy1RmUxFA.YtDT8RJ.Y2kU3U4z0jvd35YmiMOAPpD.nZUIRMC").roles("USER");
-
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password("password").roles("USER")
-//                .and()
-//                .withUser("zhangsan").password("$2a$10$qsJ/Oy1RmUxFA.YtDT8RJ.Y2kU3U4z0jvd35YmiMOAPpD.nZUIRMC").roles("USER")
-//                .and()
-//                .withUser("admin").password("password").roles("ADMIN", "USER");
-
-        auth.authenticationProvider(provider);  // 自定义provider
-//        auth.eraseCredentials(false);           // 不删除凭据，以便记住用户
+        auth.userDetailsService(loginUserDetailsService).passwordEncoder(passwordEncoder());
     }
-
-    @Override
-    @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-
-    /**
-     * WebSecurity
-     * 忽略静态资源
-     * 添加FilterChainBuilder
-     */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
-//        web
-//                .ignoring()
-//                .antMatchers("/css/**", "/js/**", "/plugins/**", "/favicon.ico");
-//                .and()
-//                .addSecurityFilterChainBuilder();
-    }
-
-
-    /**
-     * HttpSecurity
-     * 配置角色权限
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/oauth/**","/login/**", "/logout").permitAll()
-                .and()
-                .authorizeRequests().anyRequest().authenticated();
-        super.configure(http);
-//                .authorizeRequests()
-//                .antMatchers("/login","/oauth/authorize","/re").permitAll()
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/product/**").hasRole("USER")
-//                .and()
-//                .formLogin()
-//                .and()
-//                .httpBasic();
-//                .usernameParameter("username") // default is username
-//                .passwordParameter("password") // default is password
-//                .loginPage("/authentication/login") // default is /login with an HTTP get
-//                .failureUrl("/authentication/login?failed") // default is /login?error
-//                .loginProcessingUrl("/authentication/login/process"); // default is /login;
-    }
-
-
-//    @Bean
-//    @Override
-//    protected UserDetailsService userDetailsService() {
-//        User.UserBuilder builder = User.builder();
-//        UserDetails user = builder.username("zhangsan").password("$2a$10$GStfEJEyoSHiSxnoP3SbD.R8XRowP1QKOdi.N6/iFEwEJWTQqlSba").roles("USER").build();
-//        UserDetails admin = builder.username("lisi").password("$2a$10$GStfEJEyoSHiSxnoP3SbD.R8XRowP1QKOdi.N6/iFEwEJWTQqlSba").roles("USER", "ADMIN").build();
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+//        String idForEncode = "bcrypt";
+//        Map<String, PasswordEncoder> encoders = new HashMap<>();
+//        encoders.put(idForEncode, new BCryptPasswordEncoder());
+//        encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
+//        encoders.put("scrypt", new SCryptPasswordEncoder());
+//        return new DelegatingPasswordEncoder(idForEncode, encoders);
         return new BCryptPasswordEncoder();
     }
 
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     public static void main(String[] args) {
+        // 计算 BCryptPasswordEncoder 密文
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         System.out.println(bCryptPasswordEncoder.encode("123456"));
         System.out.println(bCryptPasswordEncoder.encode("12345678"));
+        System.out.println(bCryptPasswordEncoder.encode("password"));
+        System.out.println(bCryptPasswordEncoder.matches("989df7b4501d2f2b7f4e3f4e06801f3b", "$2a$10$AEVbedAn1ClYKZu49zdb..rjCMfdZrISpT90C1Sl61cVu/nq6hU7i"));
+
     }
+
 }
