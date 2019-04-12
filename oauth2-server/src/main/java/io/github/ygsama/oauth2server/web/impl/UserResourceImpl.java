@@ -34,7 +34,7 @@ public class UserResourceImpl implements UserResource {
 	public BaseDTO addUser(UserDTO u) {
 		BaseDTO dto;
 		try {
-			if (u.getUsername() == null || u.getPassword() == null || u.getName() == null || u.getOrgNo() == null) {
+			if (u.getUsername() == null || u.getPassword() == null || u.getName() == null ) {
 				return new UserDTO(ResultEnum.PARAM_LACK);
 			}
 			dto = userService.addUser(u);
@@ -49,7 +49,7 @@ public class UserResourceImpl implements UserResource {
 	public BaseDTO updateUserByNo(UserDTO u) {
 		BaseDTO dto;
 		try {
-			if (u.getUsername() == null || u.getName() == null || u.getOrgNo() == null) {
+			if (u.getUsername() == null || u.getName() == null ) {
 				return new UserDTO(ResultEnum.PARAM_LACK);
 			}
 			dto = userService.updateUser(u);

@@ -16,44 +16,41 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper {
 
-	@Select("select t1.NO, t1.NAME, t1.CATALOG, t1.ORG_GRADE_NO, t1.NOTE" +
-			" from sys_role t1 " +
+	@Select("select t1.NO, t1.NAME, t1.CATALOG, t1.NOTE " +
+			"from sys_role t1 " +
 			"left join sys_user_role t2 on t1.no=t2.role_no " +
 			"where t2.username=#{username}")
 	@Results({
 			@Result(column = "NO", property = "no", jdbcType = JdbcType.VARCHAR, id = true),
 			@Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
 			@Result(column = "CATALOG", property = "catalog", jdbcType = JdbcType.DECIMAL),
-			@Result(column = "ORG_GRADE_NO", property = "orgGradeNo", jdbcType = JdbcType.VARCHAR),
 			@Result(column = "NOTE", property = "note", jdbcType = JdbcType.VARCHAR)
 	})
 	List<SysRoleDO> qryUserRoleByUsername(String username);
 
 	@Select("select a1.* from " +
-			"(select SYS_ROLE.*,rownum rn from SYS_ROLE where org_grade_no like #{orgGradeNo}) a1 " +
+			"(select sys_role.*,rownum rn from sys_role ) a1 " +
 			"where rn > #{startRow} and rn <= #{endRow}")
 	@Results({
 			@Result(column = "NO", property = "no", jdbcType = JdbcType.VARCHAR, id = true),
 			@Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
 			@Result(column = "CATALOG", property = "catalog", jdbcType = JdbcType.DECIMAL),
-			@Result(column = "ORG_GRADE_NO", property = "orgGradeNo", jdbcType = JdbcType.VARCHAR),
 			@Result(column = "NOTE", property = "note", jdbcType = JdbcType.VARCHAR)
 	})
-	List<SysRoleDO> queryByPage(@Param("startRow") int startRow, @Param("endRow") int endRow, @Param("orgGradeNo") String orgGradeNo);
+	List<SysRoleDO> queryByPage(@Param("startRow") int startRow, @Param("endRow") int endRow);
 
 
-	@Select("select NO, NAME,CATALOG,ORG_GRADE_NO,NOTE from SYS_ROLE where org_grade_no >= #{orgGradeNo}")
+	@Select("select NO, NAME, CATALOG, NOTE from sys_role ")
 	@Results({
 			@Result(column = "NO", property = "no", jdbcType = JdbcType.VARCHAR, id = true),
 			@Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
 			@Result(column = "CATALOG", property = "catalog", jdbcType = JdbcType.DECIMAL),
-			@Result(column = "ORG_GRADE_NO", property = "orgGradeNo", jdbcType = JdbcType.VARCHAR),
 			@Result(column = "NOTE", property = "note", jdbcType = JdbcType.VARCHAR)
 	})
-	List<SysRoleDO> queryByOrgNo(String orgGradeNo);
+	List<SysRoleDO> queryByOrgNo();
 
 
-	@Select("select NO from SYS_ROLE")
+	@Select("select NO from sys_role")
 	@Results({
 			@Result(column = "NO", property = "no", jdbcType = JdbcType.VARCHAR, id = true),
 	})
@@ -62,52 +59,50 @@ public interface SysRoleMapper {
 
 	@Select({
 			"select",
-			"NO, NAME, CATALOG, ORG_GRADE_NO, NOTE",
-			"from SYS_ROLE",
+			"NO, NAME, CATALOG, NOTE",
+			"from sys_role",
 			"where NO = #{no,jdbcType=VARCHAR}"
 	})
 	@Results({
 			@Result(column = "NO", property = "no", jdbcType = JdbcType.NUMERIC, id = true),
 			@Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
 			@Result(column = "CATALOG", property = "catalog", jdbcType = JdbcType.NUMERIC),
-			@Result(column = "ORG_GRADE_NO", property = "orgGradeNo", jdbcType = JdbcType.NUMERIC),
 			@Result(column = "NOTE", property = "note", jdbcType = JdbcType.VARCHAR)
 	})
 	SysRoleDO queryRoleDetailByNo(String no);
 
 	@Select({
 			"select MENU_NO no " +
-					"from SYS_ROLE_MENU " +
+					"from sys_role_menu " +
 					"where ROLE_NO=#{no}"
 	})
 	List<SysMenuDO> queryMenuButtonByNo(String no);
 
 
-	@Select("select count(*) from sys_role where org_grade_no like #{orgGradeNo,jdbcType=VARCHAR}")
-	int queryTotalRow(String orgGradeNo);
+	@Select("select count(*) from sys_role ")
+	int queryTotalRow();
 
 
 	@Delete({
-			"delete from SYS_ROLE",
+			"delete from sys_role",
 			"where NO = #{no,jdbcType=DECIMAL}"
 	})
 	int deleteByPrimaryKey(int no);
 
 	@Delete({
-			"delete from SYS_ROLE_MENU",
+			"delete from sys_role_menu",
 			"where ROLE_NO = #{roleNo,jdbcType=DECIMAL}"
 	})
 	int deleteRoleMenu(int roleNo);
 
 	@Insert({
-			"insert into SYS_ROLE (NO, NAME, ORG_GRADE_NO, NOTE)",
-			"values (#{no,jdbcType=NUMERIC}, #{name,jdbcType=VARCHAR}, ",
-			" #{orgGradeNo,jdbcType=NUMERIC}, #{note,jdbcType=VARCHAR})"
+			"insert into sys_role (NO, NAME, NOTE)",
+			"values (#{no,jdbcType=NUMERIC}, #{name,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR})"
 	})
 	int insert(SysRoleDO record);
 
 	@Insert("<script> " +
-			"insert into SYS_ROLE_MENU(ROLE_NO,MENU_NO) " +
+			"insert into sys_role_MENU(ROLE_NO,MENU_NO) " +
 			"<foreach item='item' index='index' collection='menu' separator='union all' > " +
 			"(SELECT #{roleNo},#{item.no} from dual) " +
 			"</foreach>" +
@@ -125,11 +120,10 @@ public interface SysRoleMapper {
 	int selectMaxNo();
 
 	@Update({
-			"update SYS_ROLE",
-			"set NAME = #{name,jdbcType=VARCHAR},",
-			"ORG_GRADE_NO = #{orgGradeNo,jdbcType=NUMERIC},",
-			"NOTE = #{note,jdbcType=VARCHAR}",
-			"where NO = #{no,jdbcType=NUMERIC}"
+			"update sys_role ",
+			"set NAME = #{name,jdbcType=VARCHAR}, ",
+			"NOTE = #{note,jdbcType=VARCHAR} ",
+			"where NO = #{no,jdbcType=NUMERIC} "
 	})
 	int updateByPrimaryKey(SysRoleDO record);
 }

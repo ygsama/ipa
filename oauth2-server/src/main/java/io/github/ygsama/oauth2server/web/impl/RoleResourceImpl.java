@@ -1,7 +1,6 @@
 package io.github.ygsama.oauth2server.web.impl;
 
 import io.github.ygsama.oauth2server.dto.BaseDTO;
-import io.github.ygsama.oauth2server.dto.ListDTO;
 import io.github.ygsama.oauth2server.dto.PageDTO;
 import io.github.ygsama.oauth2server.dto.RoleDTO;
 import io.github.ygsama.oauth2server.service.RoleService;
@@ -89,24 +88,6 @@ public class RoleResourceImpl implements RoleResource {
 			dto = new PageDTO<>(ResultEnum.FAIL);
 			log.error("[获取分页角色列表异常]: ", e);
 
-		}
-		return dto;
-	}
-
-	/**
-	 * 查询该机构及其下属机构的角色列表
-	 *
-	 * @param orgGradeNo 机构等级编号
-	 * @return ListDTO
-	 */
-	@Override
-	public ListDTO getRoleListByOrgNo(String orgGradeNo) {
-		ListDTO<RoleDTO> dto;
-		try {
-			dto = roleService.getRoleListByOrgNo(orgGradeNo);
-		} catch (Exception e) {
-			dto = new ListDTO<>(ResultEnum.FAIL);
-			log.error("[获取下属机构角色列表异常]: ", e);
 		}
 		return dto;
 	}

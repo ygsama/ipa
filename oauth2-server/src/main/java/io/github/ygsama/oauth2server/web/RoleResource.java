@@ -1,7 +1,6 @@
 package io.github.ygsama.oauth2server.web;
 
 import io.github.ygsama.oauth2server.dto.BaseDTO;
-import io.github.ygsama.oauth2server.dto.ListDTO;
 import io.github.ygsama.oauth2server.dto.PageDTO;
 import io.github.ygsama.oauth2server.dto.RoleDTO;
 import io.swagger.annotations.Api;
@@ -61,11 +60,5 @@ public interface RoleResource {
 			@ApiImplicitParam(name = "pageSize", value = "页面大小", required = true, paramType = "query"),
 	})
 	PageDTO getRoleListByPage(@ApiIgnore @RequestParam Map<String, Object> param);
-
-
-	@GetMapping("/grade")
-	@ApiOperation(value = "查询该机构级别及下属级别角色列表", notes = "查询该机构级别及下属级别角色列表")
-	@ApiImplicitParam(name = "orgGradeNo", value = "机构等级编号", paramType = "query")
-	ListDTO getRoleListByOrgNo(@ApiIgnore @RequestParam String orgGradeNo);
 
 }

@@ -17,10 +17,10 @@ public interface SysPermissionMapper {
 	@Select("select * from sys_permission")
 	List<SysPermissionDO> queryAll();
 
-	@Select("select p.URL,p.METHOD, wm_concat(rm.ROLE_NO) ROLE_LIST " +
-			"from SYS_ROLE_MENU rm " +
-			"left join SYS_MENU menu on menu.NO=rm.MENU_NO " +
-			"left join SYS_PERMISSION p on menu.BUTTON = p.NO " +
+	@Select("select p.URL,p.METHOD, group_concat(rm.ROLE_NO) ROLE_LIST " +
+			"from sys_role_menu rm " +
+			"left join sys_menu menu on menu.NO=rm.MENU_NO " +
+			"left join sys_permission p on menu.BUTTON = p.NO " +
 			"where p.URL is not null " +
 			"group by p.URL,p.METHOD")
 	@Results({
@@ -31,7 +31,7 @@ public interface SysPermissionMapper {
 	List<SysPermissionDO> queryRolePermission();
 
 
-	@Select("select URL, METHOD from SYS_PERMISSION " +
+	@Select("select URL, METHOD from sys_permission " +
 			"where CATALOG = 3 or CATALOG = 1")
 	@Results({
 			@Result(column = "URL", property = "url", jdbcType = JdbcType.VARCHAR),
@@ -41,7 +41,7 @@ public interface SysPermissionMapper {
 
 
 	@Select("select a1.* from " +
-			"(select SYS_PERMISSION.*,rownum rn from SYS_PERMISSION) a1 " +
+			"(select sys_permission.*,rownum rn from sys_permission) a1 " +
 			"where rn between #{startRow} and #{endRow}")
 	List<SysPermissionDO> queryByPage(@Param("startRow") int startRow, @Param("endRow") int endRow);
 

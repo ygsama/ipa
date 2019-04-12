@@ -20,7 +20,7 @@ public interface SysMenuMapper {
 	@Select({
 			"select",
 			"NO, NAME, MENU_FATHER, URL, MENU_LEVEL, MENU_ORDER, NOTE",
-			"from SYS_MENU",
+			"from sys_menu ",
 			"where NO = #{no,jdbcType=VARCHAR}"
 	})
 	@Results({
@@ -34,7 +34,7 @@ public interface SysMenuMapper {
 	})
 	SysMenuDO selectByPrimaryKey(String no);
 
-	@Select({"select NO, NAME, MENU_FATHER,URL, MENU_LEVEL, MENU_ORDER, NOTE,MENU_ICON,MENU_SIZE,MENU_BG,BUTTON_TAG,BUTTON from SYS_MENU"
+	@Select({"select NO, NAME, MENU_FATHER,URL, MENU_LEVEL, MENU_ORDER, NOTE,MENU_ICON,MENU_SIZE,MENU_BG,BUTTON_TAG,BUTTON from sys_menu"
 	})
 	@Results({
 			@Result(column = "NO", property = "no", jdbcType = JdbcType.VARCHAR, id = true),
@@ -54,10 +54,10 @@ public interface SysMenuMapper {
 
 
 	@Select("select distinct m1.NO,m1.NAME,m1.MENU_FATHER,m1.URL, m1.MENU_LEVEL, m1.MENU_ORDER, m1.NOTE,m1.MENU_ICON,m1.MENU_SIZE,m1.MENU_BG,m1.BUTTON_TAG,m1.BUTTON " +
-			"from SYS_MENU  m1 " +
-			"left join SYS_ROLE_MENU on m1.NO = SYS_ROLE_MENU.MENU_NO " +
-			"left join SYS_USER_ROLE on SYS_USER_ROLE.ROLE_NO = SYS_ROLE_MENU.ROLE_NO " +
-			"start with SYS_USER_ROLE.USERNAME= #{username,jdbcType=VARCHAR} connect by prior m1.MENU_FATHER=m1.NO "
+			"from sys_menu  m1 " +
+			"left join sys_role_menu on m1.NO = sys_role_menu.MENU_NO " +
+			"left join sys_user_role on sys_user_role.ROLE_NO = sys_role_menu.ROLE_NO " +
+			"start with sys_user_role.USERNAME= #{username,jdbcType=VARCHAR} connect by prior m1.MENU_FATHER=m1.NO "
 	)
 	@Results({
 			@Result(column = "NO", property = "no", jdbcType = JdbcType.VARCHAR, id = true),

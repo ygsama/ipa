@@ -30,8 +30,6 @@ public class SysUserDO implements UserDetails {
 
 	private Integer onlineFlag;
 
-	private String orgNo;
-
 	private String phone;
 
 	private String mobile;

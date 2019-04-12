@@ -30,8 +30,6 @@ public class UserDTO extends BaseDTO {
 
 	private Integer onlineFlag;
 
-	private String orgNo;
-
 	private String phone;
 
 	private String mobile;

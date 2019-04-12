@@ -36,20 +36,6 @@ public class RoleServiceImpl implements RoleService {
 		this.sysMenuMapper = sysMenuMapper;
 	}
 
-	@Override
-	public ListDTO<RoleDTO> getRoleListByOrgNo(String orgGradeNo) {
-		ListDTO<RoleDTO> dto = new ListDTO<>(ResultEnum.FAIL);
-		try {
-			List<SysRoleDO> doList = sysRoleMapper.queryByOrgNo(orgGradeNo);
-			List<RoleDTO> dtoList = SysRoleConverter.INSTANCE.domain2dto(doList);
-			dto.setRetList(dtoList);
-			dto.setResult(ResultEnum.SUCCEED);
-		} catch (Exception e) {
-			dto = new ListDTO<>(ResultEnum.FAIL);
-			log.error("[查询下属角色列表]: ", e);
-		}
-		return dto;
-	}
 
 	/**
 	 * 查询角色分页列表
@@ -67,8 +53,8 @@ public class RoleServiceImpl implements RoleService {
 			int pageSize = StringUtil.objectToInt(param.get("pageSize"));
 			int startRow = pageSize * (curPage - 1);
 			int endRow = pageSize * curPage;
-			int totalRow = sysRoleMapper.queryTotalRow(orgGradeNo);
-			List<SysRoleDO> doList = sysRoleMapper.queryByPage(startRow, endRow, orgGradeNo);
+			int totalRow = sysRoleMapper.queryTotalRow();
+			List<SysRoleDO> doList = sysRoleMapper.queryByPage(startRow, endRow);
 			List<RoleDTO> dtoList = SysRoleConverter.INSTANCE.domain2dto(doList);
 			pageDTO.setCurPage(curPage);
 			pageDTO.setPageSize(pageSize);
