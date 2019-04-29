@@ -1,7 +1,6 @@
 server:
-  port: 8088
-#  servlet:
-#    context-path: /ipa
+  port: 8080
+
 spring:
   datasource:
     url: jdbc:mysql://140.143.206.106:3306/ipa
