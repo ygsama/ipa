@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DaoAuthenticationProvider provider;
+    private DaoAuthenticationProvider daoAuthenticationProvider;
 
     /**
      * 启动时，创建多个过滤器链，静态文件忽略拦截
@@ -32,28 +32,30 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 其他所有的请求走这过滤器链
-     * Creating filter chain:
-     *  any request,[
-     *      WebAsyncManagerIntegrationFilter,
-     *      SecurityContextPersistenceFilter,
-     *      HeaderWriterFilter,
-     *      LogoutFilter,
-     *      UsernamePasswordAuthenticationFilter,
-     *      DefaultLoginPageGeneratingFilter,
-     *      DefaultLogoutPageGeneratingFilter,
-     *      RequestCacheAwareFilter,
-     *      SecurityContextHolderAwareRequestFilter,
-     *      AnonymousAuthenticationFilter,
-     *      SessionManagementFilter,
-     *      ExceptionTranslationFilter,
-     *      FilterSecurityInterceptor
+     * 配置的请求走这过滤器链，此处配置是第一步认证
+     * 即此处 permitAll() 相当于免登陆，框架会设置一个匿名角色，还需要第二步鉴权
+     * 配置的结果是：
+     *  / 可以访问，因为此处认证了，鉴权部分...MetadataSource.getAttributes里返回null，判定为所有角色都有权限
+     *  /users 不可以访问，因为此处认证通过后，还需要鉴权...MetadataSource.getAttributes里返回的角色数组里没有匿名角色
+     * ExpressionBasedFilterInvocationSecurityMetadataSource
+     * Adding web access control expression 'permitAll', for OrRequestMatcher [
+     *      requestMatchers=[
+     *          Ant [pattern='/logout', GET],
+     *          Ant [pattern='/logout', POST],
+     *          Ant [pattern='/logout', PUT],
+     *          Ant [pattern='/logout', DELETE]
+     *      ]
      * ]
+     * Adding web access control expression 'permitAll', for ExactUrl [processUrl='/login?logout']
+     * Adding web access control expression 'permitAll', for Ant [pattern='/users']
+     * Adding web access control expression 'permitAll', for Ant [pattern='/']
+     * Adding web access control expression 'authenticated', for any request
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/users").permitAll()
                 .antMatchers("/").permitAll()//访问首页不需要权限
                 .anyRequest().authenticated() // 其他页面需要权限
                 .and().logout().permitAll() //退出不需要权限
@@ -62,8 +64,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(provider);  // 自定义provider
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(daoAuthenticationProvider);  // 自定义provider
         auth.eraseCredentials(false);           // 不删除凭据，以便记住用户
     }
 

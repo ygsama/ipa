@@ -5,6 +5,7 @@ import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,8 +15,24 @@ import java.io.IOException;
 /**
  * 资源访问过滤器
  *
- * 默认的过滤器是FilterSecurityInterceptor
- * 这里是重写的一个过滤器
+ * 默认的过滤器是{@link FilterSecurityInterceptor}
+ *
+ * Creating filter chain:
+ * any request,[
+ *      WebAsyncManagerIntegrationFilter,
+ *      SecurityContextPersistenceFilter,
+ *      HeaderWriterFilter,
+ *      LogoutFilter,
+ *      UsernamePasswordAuthenticationFilter,
+ *      DefaultLoginPageGeneratingFilter,
+ *      DefaultLogoutPageGeneratingFilter,
+ *      RequestCacheAwareFilter,
+ *      SecurityContextHolderAwareRequestFilter,
+ *      AnonymousAuthenticationFilter,
+ *      SessionManagementFilter,
+ *      ExceptionTranslationFilter,
+ *      FilterSecurityInterceptor    <--- 本过滤器在这里生效？
+ * ]
  */
 @Component
 public class CustomerSecurityFilter extends AbstractSecurityInterceptor implements Filter {

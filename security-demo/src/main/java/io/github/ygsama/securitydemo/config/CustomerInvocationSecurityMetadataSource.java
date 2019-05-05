@@ -75,6 +75,7 @@ public class CustomerInvocationSecurityMetadataSource implements FilterInvocatio
             String resURL = ite.next();
             RequestMatcher requestMatcher = new AntPathRequestMatcher(resURL);
             if(requestMatcher.matches(filterInvocation.getHttpRequest())) {
+                System.out.println(" return resourceMap.get(resURL) " + resourceMap.get(resURL));
                 return resourceMap.get(resURL);
             }
         }

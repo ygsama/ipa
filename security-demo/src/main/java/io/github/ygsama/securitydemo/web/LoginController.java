@@ -25,10 +25,10 @@ public class LoginController {
         log.info("[user login] body: {}",body);
 
         JSONObject json = JSON.parseObject(body);
-        String uname = json.getString("uname");
-        String pwd = json.getString("pwd");
+        String username = json.getString("username");
+        String pwd = json.getString("password");
 
-        if (StringUtils.isEmpty(uname)){
+        if (StringUtils.isEmpty(username)){
             return new JSONObject().fluentPut("msg","用户名不能为空");
         }
         if (StringUtils.isEmpty(pwd)){
