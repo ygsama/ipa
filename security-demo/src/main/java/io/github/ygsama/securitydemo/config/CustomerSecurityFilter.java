@@ -47,7 +47,7 @@ public class CustomerSecurityFilter extends AbstractSecurityInterceptor implemen
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         FilterInvocation fi = new FilterInvocation( request, response, chain );
-        System.out.println("filter..........................");
+        System.out.println(" CustomerSecurityFilter.doFilter() ");
         InterceptorStatusToken token = super.beforeInvocation(fi);
         try{
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
@@ -58,11 +58,11 @@ public class CustomerSecurityFilter extends AbstractSecurityInterceptor implemen
 
     @Override
     public void init(FilterConfig filterConfig) {
-        System.out.println("----------filter.init()");
+        System.out.println("----------CustomerSecurityFilter..init()");
     }
 
     @Override
     public void destroy() {
-        System.out.println("----------filter.destroy()");
+        System.out.println("----------CustomerSecurityFilter..destroy()");
     }
 }

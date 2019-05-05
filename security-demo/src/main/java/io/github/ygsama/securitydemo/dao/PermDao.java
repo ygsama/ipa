@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PermDao {
 
-    @Select("select * from perm")
+    @Select("select * from sys_permission ")
     List<Perm> findAll();
 
 }

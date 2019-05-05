@@ -1,7 +1,5 @@
 package io.github.ygsama.securitydemo.config;
 
-import io.github.ygsama.securitydemo.dao.PermDao;
-import io.github.ygsama.securitydemo.dao.RolePermDao;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -11,7 +9,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -21,11 +18,11 @@ import java.util.*;
 @Service
 public class CustomerInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    @Resource
-    private PermDao permDao;
-
-    @Resource
-    private RolePermDao rolePermDao;
+//    @Resource
+//    private PermDao permDao;
+//
+//    @Resource
+//    private RolePermDao rolePermDao;
 
     private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
@@ -67,7 +64,7 @@ public class CustomerInvocationSecurityMetadataSource implements FilterInvocatio
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        System.out.println("--- 根据URL找到相关权限配置");
+        System.out.println(" [根据URL找到相关权限配置] : CustomerInvocationSecurityMetadataSource.getAttributes() ");
         // object 是一个URL，被用户请求的url。
         FilterInvocation filterInvocation = (FilterInvocation) object;
         if (resourceMap == null) {

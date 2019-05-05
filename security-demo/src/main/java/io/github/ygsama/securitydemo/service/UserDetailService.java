@@ -1,6 +1,5 @@
 package io.github.ygsama.securitydemo.service;
 
-import io.github.ygsama.securitydemo.dao.UserDao;
 import io.github.ygsama.securitydemo.entity.CustomerUser;
 import io.github.ygsama.securitydemo.entity.Role;
 import io.github.ygsama.securitydemo.entity.User;
@@ -9,15 +8,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 
 @Service
 public class UserDetailService implements UserDetailsService {
 
 
-    @Resource
-    private UserDao userDao;
+//    @Resource
+//    private UserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 7080
 
 spring:
   datasource:
@@ -7,3 +7,5 @@ spring:
     username: root
     password:
     driver-class-name: com.mysql.jdbc.Driver
+
+debug: true
