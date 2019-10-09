@@ -1,5 +1,5 @@
 rootProject.name = 'ipa'
 include 'oauth2-server'
 include 'resource-server'
-include 'security-demo'
 
+include 'spring-security-demo'

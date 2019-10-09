@@ -5,6 +5,7 @@ dependencies {
     // FIXME  Spring Security OAuth：本依赖是临时的，以后将被 spring-security 取代，目前 spring-security 还未集成 OAuth 2.0 Authorization Server，请关注 spring-security 的版本更新
     implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.1.3.RELEASE'
 
+    implementation 'mysql:mysql-connector-java:5.1.24'
 
 //    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     testImplementation 'org.springframework.security:spring-security-test'

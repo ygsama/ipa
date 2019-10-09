@@ -1,9 +1,3 @@
 server:
   port: 8088
 
-spring:
-  datasource:
-    url: jdbc:mysql://140.143.206.106:3306/ipa
-    username: root
-    password:
-    driver-class-name: com.mysql.jdbc.Driver
