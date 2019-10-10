@@ -5,7 +5,6 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
-    implementation group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.10.RELEASE'
 
 
 }
