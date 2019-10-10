@@ -23,7 +23,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private DaoAuthenticationProvider daoAuthenticationProvider;
 
     /**
-     * 启动时，创建多个过滤器链，静态文件忽略拦截
+     * 启动时，不拦截静态文件
      * Creating filter chain: Ant [pattern='/js/**'], []
      * Creating filter chain: Ant [pattern='/css/**'], []
      * Creating filter chain: Ant [pattern='/images/**'], []
@@ -34,21 +34,23 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 配置的请求走这过滤器链，此处配置是第一步认证
-     * 即此处 permitAll() 相当于免认证，框架会设置一个匿名角色，还需要第二步鉴权
+     * 配置的请求走这过滤器链，此处配置是第一步认证，还需要第二步鉴权
+     * 此处 permitAll() 相当于匿名免认证，框架会默认他是一个匿名角色
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll() //访问首页不需要认证
+                .antMatchers("/", "/swagger-ui.html", "/v2/**", "/webjars/**", "/swagger-resources/**").permitAll() //访问首页不需要认证
                 .anyRequest().authenticated()  // 其他页面需要认证
                 .and()
                 .logout().permitAll()    //退出不需要权限
                 .and()
+                .httpBasic()
+                .and()
                 .formLogin().permitAll()    //支持表单登陆
                 .and()
-                .csrf().disable();    //关闭默认的csrf认证
+                .csrf().disable();   //关闭默认的csrf认证
     }
 
     @Override

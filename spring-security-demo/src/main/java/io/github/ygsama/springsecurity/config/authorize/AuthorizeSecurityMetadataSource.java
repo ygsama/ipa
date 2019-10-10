@@ -38,6 +38,12 @@ public class AuthorizeSecurityMetadataSource implements FilterInvocationSecurity
         Collection<ConfigAttribute> user = new ArrayList<>();
         user.add(new SecurityConfig("admin"));
         user.add(new SecurityConfig("user"));
+        // swagger页面授权给所有角色
+        resourceMap.put("/swagger-ui.html", null);
+        resourceMap.put("/v2/**", null);
+        resourceMap.put("/webjars/**", null);
+        resourceMap.put("/swagger-resources/**", null);
+        // null 表示当前api不需要授权，可以被匿名用户访问
         resourceMap.put("/", null);
         resourceMap.put("/admin", admin);
         resourceMap.put("/user", user);

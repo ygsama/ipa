@@ -14,25 +14,8 @@ import java.io.IOException;
 
 /**
  * 资源访问过滤器
- *
+ * <p>
  * 默认的过滤器是{@link FilterSecurityInterceptor}
- *
- * Creating filter chain:
- * any request,[
- *      WebAsyncManagerIntegrationFilter,
- *      SecurityContextPersistenceFilter,
- *      HeaderWriterFilter,
- *      LogoutFilter,
- *      UsernamePasswordAuthenticationFilter,
- *      DefaultLoginPageGeneratingFilter,
- *      DefaultLogoutPageGeneratingFilter,
- *      RequestCacheAwareFilter,
- *      SecurityContextHolderAwareRequestFilter,
- *      AnonymousAuthenticationFilter,
- *      SessionManagementFilter,
- *      ExceptionTranslationFilter,
- *      FilterSecurityInterceptor    <--- 本过滤器在这里生效？
- * ]
  */
 @Component
 public class AuthorizeSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
@@ -45,7 +28,7 @@ public class AuthorizeSecurityInterceptor extends AbstractSecurityInterceptor im
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
         super.setAccessDecisionManager(authorizeAccessDecisionManager);
     }
 
@@ -63,12 +46,12 @@ public class AuthorizeSecurityInterceptor extends AbstractSecurityInterceptor im
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        FilterInvocation fi = new FilterInvocation( request, response, chain );
-        System.out.println(" CustomerSecurityFilter.doFilter() ");
+        FilterInvocation fi = new FilterInvocation(request, response, chain);
+
         InterceptorStatusToken token = super.beforeInvocation(fi);
-        try{
+        try {
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
-        }finally{
+        } finally {
             super.afterInvocation(token, null);
         }
     }

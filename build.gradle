@@ -44,8 +44,6 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
         implementation 'org.springframework.boot:spring-boot-devtools'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
