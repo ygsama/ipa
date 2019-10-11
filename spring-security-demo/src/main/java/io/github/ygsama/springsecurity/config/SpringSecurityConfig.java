@@ -1,6 +1,7 @@
 package io.github.ygsama.springsecurity.config;
 
-import io.github.ygsama.springsecurity.config.authentication.DaoAuthenticationProvider;
+import io.github.ygsama.springsecurity.config.authentication.UserAuthenticationProvider;
+import io.github.ygsama.springsecurity.config.authorize.AuthorizeSecurityInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,18 +10,35 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import javax.annotation.Resource;
 
 /**
  * spring security 配置文件
  * 注意观察 INFO 级别日志 ： 以" Creating filter chain: ...."
+ * <p>
+ * [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter,
+ * org.springframework.security.web.context.SecurityContextPersistenceFilter,
+ * org.springframework.security.web.header.HeaderWriterFilter,
+ * org.springframework.security.web.authentication.logout.LogoutFilter,
+ * org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter,
+ * org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter,
+ * org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter,
+ * org.springframework.security.web.authentication.www.BasicAuthenticationFilter,
+ * org.springframework.security.web.savedrequest.RequestCacheAwareFilter@204624aa,
+ * org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter,
+ * org.springframework.security.web.authentication.AnonymousAuthenticationFilter,
+ * org.springframework.security.web.session.SessionManagementFilter,
+ * org.springframework.security.web.access.ExceptionTranslationFilter,
+ * org.springframework.security.web.access.intercept.FilterSecurityInterceptor]
  */
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private DaoAuthenticationProvider daoAuthenticationProvider;
+    private UserAuthenticationProvider userAuthenticationProvider;
+
 
     /**
      * 启动时，不拦截静态文件
@@ -41,7 +59,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/swagger-ui.html", "/v2/**", "/webjars/**", "/swagger-resources/**").permitAll() //访问首页不需要认证
+                //访问首页不需要认证
+                .antMatchers("/", "/swagger-ui.html", "/v2/**", "/webjars/**", "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()  // 其他页面需要认证
                 .and()
                 .logout().permitAll()    //退出不需要权限
@@ -50,12 +69,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().permitAll()    //支持表单登陆
                 .and()
-                .csrf().disable();   //关闭默认的csrf认证
+                .csrf().disable()
+                .addFilterAt(new AuthorizeSecurityInterceptor(), FilterSecurityInterceptor.class)
+        ;   //关闭默认的csrf认证
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(daoAuthenticationProvider);  // 自定义provider
+        auth.authenticationProvider(userAuthenticationProvider);  // 自定义provider
         auth.eraseCredentials(false);           // 不删除凭据，以便记住用户
     }
 

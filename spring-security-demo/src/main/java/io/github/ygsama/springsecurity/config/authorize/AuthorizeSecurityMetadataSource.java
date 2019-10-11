@@ -57,7 +57,7 @@ public class AuthorizeSecurityMetadataSource implements FilterInvocationSecurity
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        System.out.println(" [根据URL找到相关权限配置] : CustomerInvocationSecurityMetadataSource.getAttributes() ");
+        System.out.println(" [根据URL找到相关权限配置] : AuthorizeSecurityMetadataSource.getAttributes() ");
         // object 是一个URL，被用户请求的url。
         FilterInvocation filterInvocation = (FilterInvocation) object;
         if (resourceMap == null) {

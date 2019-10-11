@@ -5,7 +5,6 @@ import org.springframework.security.access.intercept.AbstractSecurityInterceptor
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -16,8 +15,8 @@ import java.io.IOException;
  * 资源访问过滤器
  * <p>
  * 默认的过滤器是{@link FilterSecurityInterceptor}
+ * @author ygsama
  */
-@Component
 public class AuthorizeSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
     @Resource
@@ -56,13 +55,15 @@ public class AuthorizeSecurityInterceptor extends AbstractSecurityInterceptor im
         }
     }
 
+
+
     @Override
     public void init(FilterConfig filterConfig) {
-        System.out.println("----------CustomerSecurityFilter..init()");
+        System.out.println("----------AuthorizeSecurityInterceptor.init()");
     }
 
     @Override
     public void destroy() {
-        System.out.println("----------CustomerSecurityFilter..destroy()");
+        System.out.println("----------AuthorizeSecurityInterceptor.destroy()");
     }
 }

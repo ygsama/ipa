@@ -49,7 +49,6 @@ public class AuthorizeAccessDecisionManager implements AccessDecisionManager {
                 }
             }
         }
-
         throw new AccessDeniedException("权限不足");
     }
 
