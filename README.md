@@ -8,6 +8,6 @@
     
     spring-security-oauth2 资源服务Demo 
     
-- spring-security-demo spring-security 
+- spring-security-demo 
 
-    动态管理url权限最简demo
+    spring-security 动态管理url权限最简demo
