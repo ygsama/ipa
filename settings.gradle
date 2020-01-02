@@ -3,3 +3,5 @@ include 'oauth2-server'
 include 'resource-server'
 
 include 'spring-security-demo'
+
+include 'netty-demo'

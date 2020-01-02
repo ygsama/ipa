@@ -6,7 +6,8 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'mysql:mysql-connector-java:5.1.24'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc' 
 }

@@ -1,5 +1,7 @@
 dependencies {
     compile project(":resource-server")
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     // FIXME  Spring Security OAuth：本依赖是临时的，以后将被 spring-security 取代，目前 spring-security 还未集成 OAuth 2.0 Authorization Server，请关注 spring-security 的版本更新
