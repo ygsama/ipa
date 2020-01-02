@@ -4,6 +4,6 @@ archivesBaseName = 'spring-security-demo'
 dependencies {
 
     implementation group: 'io.netty', name: 'netty-all', version: '4.1.44.Final'
-
+    implementation 'org.springframework.boot:spring-boot-starter'
 
 }
