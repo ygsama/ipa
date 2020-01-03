@@ -1,4 +1,4 @@
-package io.github.ygsama.client;
+package io.github.ygsama.echo_demo.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

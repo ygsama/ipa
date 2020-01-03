@@ -1,4 +1,4 @@
-package io.github.ygsama.client;
+package io.github.ygsama.echo_demo.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
