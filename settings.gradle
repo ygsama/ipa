@@ -5,3 +5,4 @@ include 'resource-server'
 include 'spring-security-demo'
 
 include 'netty-demo'
+include 'java-demo'
