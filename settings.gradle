@@ -6,3 +6,4 @@ include 'spring-security-demo'
 
 include 'netty-demo'
 include 'java-demo'
+include 'controller-demo'

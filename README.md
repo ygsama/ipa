@@ -22,3 +22,6 @@
 
 
 - java-demo
+
+- controller-demo
+动态代理Controller接口
