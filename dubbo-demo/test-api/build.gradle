@@ -1,0 +1,9 @@
+archivesBaseName = 'test-api'
+
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = true
+}

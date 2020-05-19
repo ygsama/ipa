@@ -1,4 +1,4 @@
-archivesBaseName = 'spring-security-demo'
+archivesBaseName = 'java-demo'
 
 
 dependencies {

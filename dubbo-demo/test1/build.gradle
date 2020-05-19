@@ -1,0 +1,13 @@
+archivesBaseName = 'dubbo-demo-test1'
+
+dependencies {
+
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.apache.zookeeper:zookeeper:3.5.3-beta'
+    compile 'org.apache.curator:curator-framework:4.2.0'
+    compile 'org.apache.curator:curator-recipes:4.2.0'
+    compile 'org.apache.skywalking:apm-toolkit-logback-1.x:6.6.0'
+    compile group: 'org.apache.dubbo', name: 'dubbo-spring-boot-starter', version: '2.7.6'
+    compile project(":dubbo-demo:test-api")
+}

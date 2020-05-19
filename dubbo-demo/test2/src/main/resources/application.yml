@@ -1,0 +1,11 @@
+dubbo:application.id: test2
+dubbo.application.name: test2
+dubbo.registry.address: zookeeper://127.0.0.1:2181
+dubbo.provider.threads: 10
+dubbo.provider.threadpool: fixed
+dubbo.provider.loadbalance: roundrobin
+dubbo.server: true
+dubbo.protocol.name: dubbo
+dubbo.protocol.port: -1
+server:
+  port: 8090
